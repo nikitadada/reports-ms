@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package citilink.cmsfiles.file.v1;
+
+option csharp_namespace = "Citilink.Cmsfiles.File.V1";
+option go_package = "filev1";
+option java_multiple_files = true;
+option java_outer_classname = "FileProto";
+option java_package = "com.citilink.cmsfiles.file.v1";
+option objc_class_prefix = "CCF";
+option php_namespace = "Citilink\\Cmsfiles\\File\\V1";
+
+import "google/protobuf/timestamp.proto";
+
+// Информация о файле.
+message File {
+  // Идентификатор
+  string id = 1;
+  // Название
+  string name = 2;
+  // Тип
+  Type type = 3;
+  // Статус загрузки
+  Status status = 4;
+  // Время последнего изменения
+  google.protobuf.Timestamp modified_time = 5;
+  // Расширение файла
+  string extension = 6;
+}
+
+// Тип файла.
+enum Type {
+  // Невалидный
+  TYPE_INVALID = 0;
+  // Неизвестный
+  TYPE_UNKNOWN = 1;
+  // Файлы отчетов по бонусам акций
+  TYPE_BONUS_ACTION = 2;
+}
+
+// Статус загрузки файла.
+enum Status {
+  // Невалидный
+  STATUS_INVALID = 0;
+  // Запрос на загрузку создан
+  STATUS_CREATED = 1;
+  // Файл загружается
+  STATUS_IN_PROCESS = 2;
+  // Загрузка файла завершилась с ошибкой
+  STATUS_ERROR = 3;
+  // Файл успешно загружен
+  STATUS_SUCCESS = 4;
+}

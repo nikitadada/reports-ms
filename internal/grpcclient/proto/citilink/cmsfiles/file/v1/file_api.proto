@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+package citilink.cmsfiles.file.v1;
+
+option csharp_namespace = "Citilink.Cmsfiles.File.V1";
+option go_package = "filev1";
+option java_multiple_files = true;
+option java_outer_classname = "FileApiProto";
+option java_package = "com.citilink.cmsfiles.file.v1";
+option objc_class_prefix = "CCF";
+option php_namespace = "Citilink\\Cmsfiles\\File\\V1";
+
+import "citilink/cmsfiles/file/v1/file.proto";
+import "google/protobuf/wrappers.proto";
+
+// Апи файлов.
+service FileAPI {
+  // Создает новый файл.
+  rpc Create(CreateRequest) returns (CreateResponse);
+  // Загружает файл.
+  rpc Upload(stream UploadRequest) returns (UploadResponse);
+  // Получает информацию о файле.
+  rpc Get(GetRequest) returns (GetResponse);
+  // Находит файлы по критериям.
+  rpc Filter(FilterRequest) returns (FilterResponse);
+  // Обновляет информацию о файле.
+  rpc Update(UpdateRequest) returns (UpdateResponse);
+  // Удаляет информацию о файле.
+  rpc Delete(DeleteRequest) returns (DeleteResponse);
+}
+
+// Запрос создания файла.
+message CreateRequest {
+  // Название файла
+  string name = 1;
+  // Тип файла
+  Type type = 2;
+  // Расширение файла
+  string extension = 3;
+}
+
+// Ответ на запрос создания файла.
+message CreateResponse {
+  // Идентификатор файла
+  string id = 1;
+}
+
+// Чанк запроса загрузки файла.
+message UploadRequest {
+  // Идентификатор файла
+  string id = 1;
+  // Чанк с данными
+  bytes chunk = 2;
+}
+
+// Ответ на запрос загрузки файла.
+message UploadResponse {}
+
+// Запрос получения файла по идентификатору.
+message GetRequest {
+  // Идентификатор файла
+  string id = 1;
+}
+
+// Ответ на запрос получения файла по идентификатору.
+message GetResponse {
+  // Информация о файле
+  File file = 1;
+}
+
+// Запрос поиска файлов по критериям.
+message FilterRequest {
+  // Идентификаторы файлов для поиска
+  repeated string ids = 1;
+  // Тип файла
+  Type type = 2;
+  // Статус загрузки файла
+  Status status = 3;
+  // Смещение при выборке данных
+  int32 offset = 4;
+  // Максимальное количество возвращаемых файлов
+  int32 limit = 5;
+  // Признак нужно ли считать общее количество файлов
+  bool compute_total = 6;
+}
+
+// Ответ на запрос поиска файлов по критериям.
+message FilterResponse {
+  // Массив удовлетворяющих фильтрации файлов
+  repeated File files = 1;
+  // Смещение при выборке данных
+  int32 offset = 2;
+  // Максимальное количество возвращаемых файлов
+  int32 limit = 3;
+  // Общее количество файлов
+  int32 total = 4;
+}
+
+// Запрос обновления файла.
+message UpdateRequest {
+  // Идентификатор обновляемого файла
+  string id = 1;
+  // Название файла
+  google.protobuf.StringValue name = 2;
+  // Тип файла
+  TypeValue type = 3;
+  // Статус загрузки файла
+  StatusValue status = 4;
+  // Обертка над enum'ом Type для возможности передачи nil.
+  message TypeValue {
+    Type type = 1;
+  }
+  // Обертка над enum'ом Status для возможности передачи nil.
+  message StatusValue {
+    Status status = 1;
+  }
+}
+
+// Ответ на запрос обновления файла.
+message UpdateResponse {
+  // Информация о файле
+  File file = 1;
+}
+
+// Запрос удаления файлов.
+message DeleteRequest {
+  // Идентификаторы файлов для удаления
+  repeated string ids = 1;
+}
+
+// Ответ на запрос удаления файлов.
+message DeleteResponse {}

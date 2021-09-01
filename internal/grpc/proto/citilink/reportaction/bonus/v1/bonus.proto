@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package citilink.reportaction.bonus.v1;
+
+option csharp_namespace = "Citilink.Reportaction.Bonus.V1";
+option go_package = "bonusv1";
+option java_multiple_files = true;
+option java_outer_classname = "BonusProto";
+option java_package = "com.citilink.reportaction.bonus.v1";
+option objc_class_prefix = "CRB";
+option php_namespace = "Citilink\\Reportaction\\Bonus\\V1";
+
+import "google/protobuf/timestamp.proto";
+
+// Информация о файле отчета.
+message Info {
+  // Идентификатор сущности отчета
+  string id = 1;
+  // Тип отчета
+  Type type = 2;
+  // Название файла отчета
+  string name = 3;
+  // Статус отчета
+  Status status = 4;
+  // Время инициирования создания отчета
+  google.protobuf.Timestamp created_time = 5;
+}
+
+// Тип отчета.
+enum Type {
+  // Невалидный
+  TYPE_INVALID = 0;
+  // Общий тип, содержит обобщенную информацию
+  TYPE_GENERAL = 1;
+  // Детализированный тип, содержит информацию по каждому клиенту
+  TYPE_DETAILED = 2;
+}
+
+// Статус формирования отчета.
+enum Status {
+  // Невалидный
+  STATUS_INVALID = 0;
+  // Запрос на создание отчета создан
+  STATUS_CREATED = 1;
+  // Отчет в процессе формирования
+  STATUS_IN_PROCESS = 2;
+  // Формирование отчета завершилось с ошибкой
+  STATUS_ERROR = 3;
+  // Отчет успешно сформирован
+  STATUS_SUCCESS = 4;
+}

@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package citilink.reportaction.bonus.v1;
+
+option csharp_namespace = "Citilink.Reportaction.Bonus.V1";
+option go_package = "bonusv1";
+option java_multiple_files = true;
+option java_outer_classname = "BonusApiProto";
+option java_package = "com.citilink.reportaction.bonus.v1";
+option objc_class_prefix = "CRB";
+option php_namespace = "Citilink\\Reportaction\\Bonus\\V1";
+
+import "citilink/reportaction/bonus/v1/bonus.proto";
+import "google/protobuf/timestamp.proto";
+
+// Апи отчетов о бонусах акций.
+service BonusAPI {
+  // Создает новый отчет о бонусах акции.
+  rpc Create(CreateRequest) returns (CreateResponse);
+  // Получает информацию об отчете.
+  rpc Get(GetRequest) returns (GetResponse);
+}
+
+message CreateRequest {
+  // Номер акции
+  string navision_action_number = 1;
+  // Время начала акции
+  google.protobuf.Timestamp action_start_time = 2;
+  // Тип создаваемого отчета
+  Type type = 3;
+}
+
+message CreateResponse {
+  // Информация об отчете
+  Info info = 1;
+}
+
+message GetRequest {
+  // Идентификатор отчета
+  string id = 1;
+}
+
+message GetResponse {
+  // Информация об отчете
+  Info info = 1;
+}
